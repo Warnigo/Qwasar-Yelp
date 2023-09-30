@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../config/firebase';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/login.css"
 
 const Login = () => {
@@ -9,6 +9,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [login, setLogin] = useState(false);
 
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -16,6 +17,7 @@ const Login = () => {
             .then((userCredential) => {
                 console.log(userCredential);
                 setLogin(true);
+                navigate('/home');
             })
             .catch((error) => {
                 console.log(error);
@@ -43,13 +45,7 @@ const Login = () => {
                 <Link to={"/forgot-password"}>
                     <p>Forgot your password</p>
                 </Link>
-                {login ? (
-                    <Link to={"/home"}>
-                    <button type="submit" className="login-button">Login</button>
-                    </Link>
-                ) : (
-                    <button type="submit" className="login-button">please again</button>
-                )}
+                <button type="submit" className="login-button">Login</button>
                 <Link to={"/register"} className="change-log">
                     Register now
                 </Link>
